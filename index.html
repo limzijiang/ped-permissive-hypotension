@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>小兒創傷 Permissive Hypotension｜實證與 EMT 教學建議</title>
+<style>
+/* ===== tokens ============================================================ */
+:root{
+  --bg:#0c0e13; --panel:#151a23; --panel2:#1c222d; --line:#2a323f;
+  --ink:#e9edf3; --muted:#a6b0be; --dim:#7d8796;
+  --red:#e2404c; --amber:#f0a836; --teal:#3ec6b4; --blue:#5aa9e6; --green:#5fbf6a;
+  --floor:18px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:20px}
+body{background:var(--bg);color:var(--ink);overflow:hidden;
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,-apple-system,sans-serif;
+  font-size:1rem;line-height:1.6}
+.deck{position:relative;width:100vw;height:100vh}
+
+/* ===== slide shell ======================================================= */
+.slide{position:absolute;inset:0;display:none;flex-direction:column;
+  padding:3.2vh 4.2vw 7vh;overflow-y:auto}
+.slide.on{display:flex;animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.body{flex:1;display:flex;flex-direction:column;gap:1.1rem;min-height:0}
+
+/* ===== type ============================================================== */
+.kicker{font-size:.9rem;letter-spacing:.16em;color:var(--red);font-weight:700;
+  text-transform:uppercase;margin-bottom:.5rem}
+h1{font-size:clamp(30px,3.4vw,50px);line-height:1.22;font-weight:800}
+h2{font-size:clamp(26px,2.5vw,36px);line-height:1.25;font-weight:800;margin-bottom:1.1rem}
+h2 .sub{display:block;font-size:clamp(18px,1.05vw,21px);font-weight:500;
+  color:var(--muted);margin-top:.45rem;letter-spacing:0}
+h3{font-size:clamp(20px,1.35vw,26px);font-weight:700;margin-bottom:.5rem}
+p,li{font-size:clamp(18px,1.1vw,22px)}
+.fine{font-size:var(--floor)!important;color:var(--muted);line-height:1.5}
+strong{color:#fff}
+em{color:var(--amber);font-style:normal;font-weight:700}
+.hl{color:var(--red);font-weight:700}
+.hl2{color:var(--teal);font-weight:700}
+ul{list-style:none}
+ul li{position:relative;padding-left:1.35em;margin-bottom:.6em}
+ul li::before{content:"";position:absolute;left:.15em;top:.62em;width:.45em;height:.45em;
+  border-radius:50%;background:var(--red)}
+ul.tick li::before{content:"✓";background:none;color:var(--teal);font-weight:800;
+  top:0;left:0;width:auto;height:auto}
+ul.cross li::before{content:"✕";background:none;color:var(--red);font-weight:800;
+  top:0;left:0;width:auto;height:auto}
+ol{padding-left:1.4em}ol li{margin-bottom:.55em}
+a{color:var(--blue);text-decoration:none;border-bottom:1px solid rgba(90,169,230,.4)}
+a.srcbtn{display:inline-block;background:rgba(90,169,230,.12);
+  border:1px solid rgba(90,169,230,.5);border-radius:999px;padding:.28rem .85rem;
+  font-size:var(--floor);margin:.25rem .3rem .25rem 0}
+
+/* ===== layout ============================================================ */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;align-items:start}
+.cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem}
+.c64{display:grid;grid-template-columns:1.55fr 1fr;gap:1.4rem;align-items:start}
+.c46{display:grid;grid-template-columns:1fr 1.55fr;gap:1.4rem;align-items:start}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1.1rem 1.25rem}
+.card.red{border-color:rgba(226,64,76,.45);background:linear-gradient(180deg,rgba(226,64,76,.10),transparent)}
+.card.teal{border-color:rgba(62,198,180,.4);background:linear-gradient(180deg,rgba(62,198,180,.09),transparent)}
+.card.amber{border-color:rgba(240,168,54,.42);background:linear-gradient(180deg,rgba(240,168,54,.10),transparent)}
+.card .lbl{font-size:var(--floor);letter-spacing:.1em;text-transform:uppercase;
+  color:var(--dim);font-weight:700;margin-bottom:.35rem}
+
+/* ===== stats / tables ==================================================== */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.9rem}
+.stat{background:var(--panel2);border:1px solid var(--line);border-radius:12px;
+  padding:.95rem 1rem;text-align:center}
+.stat .n{font-size:clamp(28px,2.6vw,40px);font-weight:800;line-height:1.1;color:var(--red)}
+.stat .n.t{color:var(--teal)}.stat .n.a{color:var(--amber)}.stat .n.w{color:#fff}
+.stat .k{font-size:var(--floor);color:var(--muted);margin-top:.3rem}
+table{width:100%;border-collapse:collapse;font-size:var(--floor)}
+th,td{padding:.5rem .6rem;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+th{color:var(--dim);text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+tr.key{background:rgba(226,64,76,.10)}tr.key td{font-weight:700;color:#fff}
+caption{caption-side:bottom;text-align:left;font-size:var(--floor);color:var(--dim);padding-top:.6rem}
+
+/* ===== teaching devices ================================================== */
+.analogy{display:flex;gap:.75rem;align-items:flex-start;
+  background:linear-gradient(90deg,rgba(240,168,54,.14),rgba(240,168,54,.02));
+  border-left:3px solid var(--amber);border-radius:0 10px 10px 0;padding:.6rem .95rem}
+.analogy .emo{font-size:26px;line-height:1.15;flex-shrink:0}
+.analogy p{font-size:var(--floor);line-height:1.45}
+.analogy b{color:var(--amber)}
+.analogy .tag{font-size:var(--floor);font-weight:800;color:var(--amber);
+  letter-spacing:.06em;margin-right:.4em}
+.note{background:rgba(240,168,54,.09);border-left:3px solid var(--amber);
+  border-radius:0 10px 10px 0;padding:.75rem 1rem}
+.note p,.note li{font-size:var(--floor)}
+.quote{border-left:3px solid var(--red);padding:.5rem 0 .5rem 1.1rem;
+  font-size:clamp(19px,1.2vw,24px);color:#fff;font-style:italic}
+.flow{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;font-size:var(--floor)}
+.flow .box{background:var(--panel2);border:1px solid var(--line);border-radius:10px;
+  padding:.55rem .8rem;flex:1;min-width:120px}
+.flow .arw{color:var(--red);font-weight:800;font-size:22px}
+
+/* ===== band diagrams ===================================================== */
+.ageline{position:relative;margin:.5rem 0 .2rem}
+.ageline .track{position:relative;height:52px;border-radius:8px;overflow:hidden;
+  background:var(--panel2);border:1px solid var(--line)}
+.ageline .track{height:60px}
+.ageline .seg{position:absolute;top:0;bottom:0;display:flex;align-items:center;
+  justify-content:center;font-size:var(--floor);font-weight:700;text-align:center;
+  line-height:1.25;padding:0 .3rem}
+.ageline .ticks{display:flex;justify-content:space-between;font-size:var(--floor);
+  color:var(--dim);margin-top:.25rem}
+/* absolutely-anchored ticks: each span sits at the boundary it labels */
+.ageline .ticks.abs{display:block;position:relative;height:1.5em}
+.ageline .ticks.abs span{position:absolute;top:0;transform:translateX(-50%);white-space:nowrap}
+.ageline .ticks.abs span.l{left:0;transform:none}
+.ageline .ticks.abs span.r{right:0;left:auto;transform:none}
+.sg-green{background:rgba(95,191,106,.28)}
+.sg-amber{background:rgba(240,168,54,.30)}
+.sg-red{background:rgba(226,64,76,.34)}
+.sg-line{position:absolute;top:-6px;bottom:-6px;width:3px;background:#fff;opacity:.85}
+
+/* ===== dense variant ===================================================== */
+.slide.dense h2{margin-bottom:.65rem}
+.slide.dense .body{gap:.7rem}
+.slide.dense th,.slide.dense td{padding:.32rem .55rem;line-height:1.4}
+.slide.dense ul li,.slide.dense ol li{margin-bottom:.32em}
+.slide.dense h3{margin-bottom:.35rem}
+.slide.dense .card{padding:.8rem .95rem}
+.slide.dense .note{padding:.6rem .9rem}
+.slide.dense .note p{line-height:1.45}
+.slide.dense .fine{line-height:1.38}
+.slide.dense caption{padding-top:.4rem;line-height:1.4}
+
+/* ===== chrome ============================================================ */
+.foot{position:absolute;left:0;right:0;bottom:0;height:4.6vh;min-height:34px;
+  display:flex;align-items:center;justify-content:space-between;padding:0 4.2vw;
+  background:linear-gradient(180deg,transparent,rgba(0,0,0,.45));
+  font-size:var(--floor);color:var(--dim);pointer-events:none}
+.prog{position:absolute;left:0;bottom:0;height:3px;background:var(--red);
+  transition:width .3s ease;z-index:5}
+.nav{position:fixed;right:1.1vw;bottom:1.1vh;display:flex;gap:.4rem;z-index:10}
+.nav button{background:var(--panel2);color:var(--ink);border:1px solid var(--line);
+  border-radius:9px;width:2.1rem;height:2.1rem;font-size:19px;cursor:pointer;line-height:1}
+@media print{
+  html{font-size:15px}body{overflow:visible}
+  .slide{display:flex!important;position:relative;height:100vh;page-break-after:always;animation:none}
+  .nav,.prog{display:none}
+}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- ===== 1 title ======================================================== -->
+<section class="slide" style="justify-content:center;background:
+    radial-gradient(1100px 520px at 12% 8%,rgba(179,27,40,.30),transparent 60%)">
+  <div class="kicker">PHPLS · 小兒到院前急救</div>
+  <h1>小兒創傷該不該「刻意壓低血壓」？<br><span class="hl">Permissive Hypotension 的實證與 EMT 教學建議</span></h1>
+  <p class="fine" style="font-size:clamp(19px,1.25vw,24px);color:var(--muted);margin-top:1.3rem">
+    從成人 RCT、兒童共識、進行中的英國 PRESSURE 試驗，<br>回到現場能記得住、做得出來的四個動作</p>
+  <div class="fine" style="margin-top:2.2rem;padding-top:1.2rem;border-top:1px solid var(--line)">
+    EMT／EMT-P 繼續教育 · 2026-08-17 · 林自強</div>
+</section>
+
+<!-- ===== 2 開場情境 ===================================================== -->
+<section class="slide">
+  <div class="kicker">Case</div>
+  <h2>先想一個場景<span class="sub">你在現場，接下來 10 分鐘做什麼？</span></h2>
+  <div class="body">
+    <div class="card red">
+      <p><strong>6 歲男童</strong>，機車後座乘客，被撞飛約 5 公尺。</p>
+      <p style="margin-top:.5rem">意識躁動、臉色蒼白、四肢冰冷，<strong>HR 160</strong>、<strong>RR 34</strong>、
+      <strong>BP 96/70</strong>、CRT 4 秒、腹部脹且壓痛、無明顯外出血。</p>
+    </div>
+    <div class="cols">
+      <div class="card"><div class="lbl">選項 A</div>
+        <p class="fine">血壓還有 96，看起來還好 —— 先不打點滴，快點送。</p></div>
+      <div class="card"><div class="lbl">選項 B</div>
+        <p class="fine">休克了 —— 兩條大針，生理食鹽水全開，一路灌到血壓上來。</p></div>
+    </div>
+    <div class="note"><p><strong>兩個都錯。</strong>今天這堂課要回答的就是：中間那條路長什麼樣子，
+      以及為什麼「大人可以的做法」不能直接搬到小孩身上。</p></div>
+  </div>
+</section>
+
+<!-- ===== 3 一句話結論 =================================================== -->
+<section class="slide">
+  <div class="kicker">Bottom line</div>
+  <h2>一句話結論<span class="sub">如果今天只帶走一句話，就是這句</span></h2>
+  <div class="body" style="justify-content:center">
+    <div class="quote">兒童創傷<strong>不做</strong> permissive hypotension（刻意維持低血壓），<br>
+      但<strong>要做</strong>限制性輸液（不要灌爆）。</div>
+    <div class="cols">
+      <div class="card red"><h3>✕ 不是這個</h3>
+        <p class="fine">把血壓「放著低」當成治療目標，等到手術室才拉回來。<br>
+        —— 這是成人的策略，兒童沒有證據支持。</p></div>
+      <div class="card teal"><h3>✓ 是這個</h3>
+        <p class="fine">小量、多次、看反應。目標不是某個數字，<br>
+        而是<strong>意識、脈搏、皮膚回溫</strong>有沒有改善。</p></div>
+    </div>
+    <div class="note"><p>這兩件事在成人教材裡常被混為一談，是兒童教學最大的陷阱 ——
+      學員把「少給水」聽成「讓他低血壓」。</p></div>
+  </div>
+</section>
+
+<!-- ===== 4 名詞界定 ===================================================== -->
+<section class="slide">
+  <div class="kicker">Definitions</div>
+  <h2>兩個名詞，不要混在一起<span class="sub">Permissive hypotension vs. restrictive fluid strategy</span></h2>
+  <div class="body">
+    <div class="cols">
+      <div class="card amber"><div class="lbl">Permissive hypotension</div>
+        <h3>容許性低血壓</h3>
+        <p class="fine"><strong>目標是血壓</strong>：在止血完成前，刻意把 SBP 維持在
+        50–70 或 80–90 mmHg，不去把它拉到正常。<br>
+        理由：血壓拉太高會把剛形成的血栓沖掉、加速失血、稀釋凝血因子。</p></div>
+      <div class="card teal"><div class="lbl">Restrictive fluid strategy</div>
+        <h3>限制性輸液</h3>
+        <p class="fine"><strong>目標是輸液量</strong>：不給不必要的晶體液，
+        每次給少量後重新評估，需要時儘早改給血品。<br>
+        理由：大量生理食鹽水本身有害（稀釋、低體溫、水腫）。</p></div>
+    </div>
+    <div class="analogy">
+      <div class="emo">🩹</div>
+      <p><span class="tag">比喻</span>傷口剛結了一層薄痂。<b>Permissive hypotension</b> 是「別用高壓水槍去沖它」；
+      <b>限制性輸液</b> 是「別在旁邊一直加水稀釋膠水」。兩個都在保護那層痂，
+      但一個管<b>水壓</b>、一個管<b>水量</b>——小孩的水壓不能亂降，水量卻要省著用。</p>
+    </div>
+    <div class="note"><p><strong>教學上的講法：</strong>「我們省的是<em>水</em>，不是<em>血壓</em>。」</p></div>
+  </div>
+</section>
+
+<!-- ===== 5 成人證據 ===================================================== -->
+<section class="slide dense">
+  <div class="kicker">Adult evidence</div>
+  <h2>成人：permissive hypotension 是有證據的<span class="sub">這是整個概念的來源，也是被誤植到兒童的起點</span></h2>
+  <div class="body">
+    <div class="stats">
+      <div class="stat"><div class="n">6</div><div class="k">篇 RCT 統合分析</div></div>
+      <div class="stat"><div class="n w">1,158</div><div class="k">受試者總數</div></div>
+      <div class="stat"><div class="n t">OR 0.70</div><div class="k">死亡（95% CI 0.53–0.92）</div></div>
+      <div class="stat"><div class="n a">50–70</div><div class="k">介入組目標 SBP（mmHg）</div></div>
+    </div>
+    <div class="cols">
+      <div class="card"><h3>試驗內容</h3>
+        <p class="fine">介入組目標 SBP 約 50–70 mmHg 或 MAP ≥50；對照組 SBP 65–100／MAP ≥65，
+        直到出血控制為止。<strong>輸血量與失血量都較少。</strong><br>
+        <span class="hl">但：各試驗 power 不足、異質性高。</span>
+        （<a href="https://doi.org/10.1097/TA.0000000000001816" target="_blank" rel="noopener">Tran 2018, J Trauma Acute Care Surg</a>）</p></div>
+      <div class="card"><h3>指引怎麼改的</h3>
+        <ul class="fine"><li><strong>ATLS 9th</strong>：刪掉「aggressive resuscitation」，初始晶體液 2 L → <strong>1 L</strong>，
+          更早給血漿與血小板</li>
+          <li><strong>歐洲創傷／凝血指引</strong>：止血前目標 <strong>SBP 80–90 mmHg</strong>（Grade 1C），
+          <span class="hl">明文排除腦傷者</span></li></ul></div>
+    </div>
+    <div class="note"><p><strong>怎麼讀：</strong>成人的證據談的是「止血前先忍一下」。
+      注意兩個前提——<em>有明確的出血源</em>、<em>而且很快會進手術室</em>。這兩點在小孩身上都不一定成立。</p></div>
+  </div>
+</section>
+
+<!-- ===== 6 兒童證據地圖 ================================================= -->
+<section class="slide">
+  <div class="kicker">Pediatric evidence</div>
+  <h2>兒童：沒有 RCT，只有共識<span class="sub">2023 Pediatric Traumatic Hemorrhagic Shock Consensus Conference</span></h2>
+  <div class="body">
+    <div class="stats">
+      <div class="stat"><div class="n w">21</div><div class="k">條聲明</div></div>
+      <div class="stat"><div class="n t">2</div><div class="k">clinical recommendation</div></div>
+      <div class="stat"><div class="n a">14</div><div class="k">expert consensus</div></div>
+      <div class="stat"><div class="n a">5</div><div class="k">good practice statement</div></div>
+    </div>
+    <div class="cols">
+      <div class="card red"><h3>全文<u>沒有</u>設定的東西</h3>
+        <ul class="cross fine"><li>兒童 permissive hypotension 的血壓目標</li>
+          <li>兒童專屬的低血壓復甦流程</li></ul>
+        <p class="fine" style="margin-top:.4rem">ATLS／PALS／PECARN／EAST <strong>也都沒有</strong>。</p></div>
+      <div class="card teal"><h3>它實際涵蓋的</h3>
+        <ul class="tick fine"><li>血品與輸液復甦</li><li>院前血品使用</li>
+          <li>止血輔助劑、止血帶</li><li>院前呼吸道與血壓處置</li></ul></div>
+    </div>
+    <div class="note"><p><strong>作者自己的話：</strong>兒童在出血控制與復甦的具體做法上
+      「幾乎沒有高品質證據可循」。
+      （<a href="https://doi.org/10.1097/TA.0000000000003805" target="_blank" rel="noopener">Russell 2023, J Trauma Acute Care Surg</a>）</p></div>
+  </div>
+</section>
+
+<!-- ===== 7 生理 ========================================================= -->
+<section class="slide">
+  <div class="kicker">Physiology</div>
+  <h2>為什麼小孩不能照抄大人<span class="sub">兒童的血壓是「最後才掉」的生命徵象</span></h2>
+  <div class="body">
+    <div class="ageline">
+      <div class="track">
+        <div class="seg sg-green" style="left:0;width:62%">代償期：血壓<b style="color:#fff">正常</b>（心跳快、血管收縮、CRT 變長）</div>
+        <div class="seg sg-amber" style="left:62%;width:22%">失代償：血壓開始掉</div>
+        <div class="seg sg-red" style="left:84%;width:16%">瀕臨停止</div>
+      </div>
+      <div class="ticks abs"><span class="l">失血 0%</span><span style="left:62%">約 30%</span><span style="left:84%">約 40%</span><span class="r">45%+</span></div>
+    </div>
+    <div class="cols">
+      <div class="card red"><h3>臨床意義</h3>
+        <p class="fine">小孩量到低血壓時，代償儲備<strong>已經幾乎用完</strong>。
+        那不是「還可以觀察的中間狀態」，而是<strong>接近心跳停止的訊號</strong>。</p></div>
+      <div class="card"><h3>所以現場要看什麼</h3>
+        <ul class="fine"><li>意識反應</li><li>橈動脈摸不摸得到、脈搏強不強</li>
+          <li>CRT &gt; 2 秒、皮膚濕冷蒼白</li></ul></div>
+    </div>
+    <div class="analogy">
+      <div class="emo">🔋</div>
+      <p><span class="tag">比喻</span>小孩的血壓像<b>手機的電量顯示</b>：一路顯示 100%、100%、100%……
+      然後<b>直接跳到關機</b>。你不能等它顯示 5% 才開始找充電器。
+      大人的電量條是慢慢降的，所以大人可以「開到 20% 再說」。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 8 血壓門檻不可靠 =============================================== -->
+<section class="slide dense">
+  <div class="kicker">Thresholds</div>
+  <h2>而且，那個「血壓門檻」本身就不可靠<span class="sub">同一個孩子，換一本教科書就換一個答案</span></h2>
+  <div class="body">
+    <table>
+      <thead><tr><th>來源</th><th>說法</th><th>問題</th></tr></thead>
+      <tbody>
+        <tr><td><strong>常背的公式</strong></td><td>1–10 歲 SBP &lt; 70 + 2×年齡</td><td>創傷教材沿用，未針對預後驗證</td></tr>
+        <tr><td><a href="https://doi.org/10.1097/TA.0000000000002139" target="_blank" rel="noopener">Sarganas 2019</a>（德國 KiGGS 族群）</td>
+            <td>3–9 歲第 5 百分位其實約 <strong>82 + 年齡</strong>；10–17 歲非線性</td>
+            <td>比常用公式<strong>高</strong>，代表公式會低估休克</td></tr>
+        <tr class="key"><td><a href="https://doi.org/10.1186/s13054-019-2653-9" target="_blank" rel="noopener">Hagedoorn 2019</a>（系統性回顧）</td>
+            <td>PALS 定義在 &lt;12 歲尚可；<strong>&gt;12 歲會低估</strong>低血壓；APLS 定義則高估</td>
+            <td>不同來源門檻可差 <strong>15–30 mmHg</strong></td></tr>
+      </tbody>
+      <caption>兩篇分析的共同結論：沒有任何一條公式對預後有良好驗證。</caption>
+    </table>
+    <div class="analogy">
+      <div class="emo">⚖️</div>
+      <p><span class="tag">比喻</span>三台體重計，站上去差 3 公斤。你不會拿它來決定要不要開刀——
+      <b>你會去看這個人有沒有變瘦</b>。血壓數字也一樣：它只能當<b>警報</b>，不能當<b>方向盤</b>。</p>
+    </div>
+    <div class="note"><p><strong>教學結論：</strong>血壓是<em>紅線</em>（跌破就是很糟），不是<em>目標</em>（滴定到剛好）。</p></div>
+  </div>
+</section>
+
+<!-- ===== 9 輸液怎麼給 =================================================== -->
+<section class="slide dense">
+  <div class="kicker">Fluids</div>
+  <h2>那輸液到底怎麼給？<span class="sub">2025 PALS 與 ERC 的共同方向：小量、分次、重評</span></h2>
+  <div class="body">
+    <div class="cols">
+      <div class="card teal"><div class="lbl">2025 AHA／AAP PALS</div>
+        <p class="fine">等張晶體液以 <strong>10 mL/kg 或 20 mL/kg 分次</strong>給予，
+        每次給完就重新評估「有沒有反應」與「有沒有容積過載」。<br>
+        <span class="hl2">重點不在選 10 還是 20，在於「打完要重評」。</span><br>
+        （<a href="https://doi.org/10.1542/peds.2025-074351" target="_blank" rel="noopener">Lasa 2026, Pediatrics</a>）</p></div>
+      <div class="card amber"><div class="lbl">ERC 兒童生命支持</div>
+        <p class="fine">單次上限壓到 <strong>10 mL/kg</strong>（取代舊的 20），
+        理由是減少<strong>容積過載造成的呼吸衰竭</strong>與<strong>稀釋性凝血病</strong>。<br>
+        <span class="hl">出血性／創傷性休克：晶體液要限制，儘早給血品。</span><br>
+        （<a href="https://doi.org/10.1111/pan.14389" target="_blank" rel="noopener">Buis 2022, Paediatr Anaesth</a>）</p></div>
+    </div>
+    <div class="flow">
+      <div class="box">評估休克</div><div class="arw">→</div>
+      <div class="box"><strong>10 mL/kg</strong> 快速給</div><div class="arw">→</div>
+      <div class="box">立刻重評<br><span class="fine">意識／脈搏／CRT</span></div><div class="arw">→</div>
+      <div class="box">有改善 → 停<br>沒改善 → 再一次</div>
+    </div>
+    <div class="note"><p><strong>一句話：</strong>輸液不是「掛上去就走」，是<em>一次一次給、一次一次看</em>。</p></div>
+  </div>
+</section>
+
+<!-- ===== 10 過量的傷害 ================================================== -->
+<section class="slide">
+  <div class="kicker">Harm</div>
+  <h2>灌太多，是真的會死人的<span class="sub">兒童創傷的觀察性資料一致指向同一個方向</span></h2>
+  <div class="body">
+    <div class="stats">
+      <div class="stat"><div class="n a">2.96</div><div class="k">急診第 1 小時 20–40 mL/kg<br>死亡 adjusted OR</div></div>
+      <div class="stat"><div class="n">6.26</div><div class="k">急診第 1 小時 ≥40 mL/kg<br>死亡 adjusted OR</div></div>
+      <div class="stat"><div class="n a">&gt;60</div><div class="k">mL/kg／24–48 小時<br>存活出院率下降</div></div>
+      <div class="stat"><div class="n w">5 / 6</div><div class="k">研究顯示<br>ICU／住院天數延長</div></div>
+    </div>
+    <div class="cols">
+      <div class="card red"><h3>怎麼死的</h3>
+        <ul class="fine"><li>稀釋性凝血病 —— 凝血因子被沖淡</li>
+          <li>低體溫 —— 冷輸液讓凝血酶失效</li>
+          <li>組織與肺水腫 —— 插管率上升</li></ul></div>
+      <div class="card"><h3>資料的限制（要誠實說）</h3>
+        <p class="fine">全部是<strong>觀察性研究</strong>。「傷得重的孩子本來就會被灌比較多水」
+        這個混淆無法完全排除，雖然研究已校正創傷嚴重度（ISS）。</p></div>
+    </div>
+    <div class="note"><p class="fine">來源：<a href="https://doi.org/10.1016/j.jss.2020.12.063" target="_blank" rel="noopener">Mbadiwe 2021, J Surg Res</a>（單中心世代）；
+      &gt;60 mL/kg 之數據引自 <a href="https://doi.org/10.1097/TA.0000000000003805" target="_blank" rel="noopener">Russell 2023 共識文獻回顧</a>。</p></div>
+  </div>
+</section>
+
+<!-- ===== 11 40 mL/kg 那條線 ============================================= -->
+<section class="slide">
+  <div class="kicker">The line</div>
+  <h2>現場心裡要有的那條線：40 mL/kg<span class="sub">到了這條線還在惡化，代表他需要的不是水</span></h2>
+  <div class="body">
+    <div class="ageline">
+      <div class="track">
+        <div class="seg sg-green" style="left:0;width:33%"><div>0–20 mL/kg<br><span class="fine" style="color:#cfe">參考組</span></div></div>
+        <div class="seg sg-amber" style="left:33%;width:34%"><div>20–40 mL/kg<br><span class="fine" style="color:#fed">死亡 aOR 2.96</span></div></div>
+        <div class="seg sg-red" style="left:67%;width:33%"><div>≥40 mL/kg<br><span class="fine" style="color:#fdd">死亡 aOR 6.26</span></div></div>
+        <div class="sg-line" style="left:67%"></div>
+      </div>
+      <div class="ticks abs"><span class="l">0</span><span style="left:33%">20 mL/kg</span><span style="left:67%">40 mL/kg</span><span class="r">更多</span></div>
+    </div>
+    <div class="cols">
+      <div class="card"><h3>換算成現場的動作</h3>
+        <p class="fine">40 mL/kg ≒ <strong>10 mL/kg 打 4 次</strong>，或 <strong>20 mL/kg 打 2 次</strong>
+        （＝台北市 SOP 的上限）。<br>20 kg 的孩子 ≒ <strong>800 mL</strong>。</p></div>
+      <div class="card red"><h3>越線之後該做的</h3>
+        <ul class="fine"><li>通報，指定創傷中心</li><li>加壓止血、骨盆固定帶再確認</li>
+          <li>保溫</li><li><strong>快送</strong> —— 不要在現場繼續加碼</li></ul></div>
+    </div>
+    <div class="analogy">
+      <div class="emo">🚰</div>
+      <p><span class="tag">比喻</span>牆壁裡的水管破了，你在客廳一直拖地。拖得再勤，<b>牆裡還在漏</b>。
+      腹腔和骨盆的出血在現場沒有辦法止 —— 到了 40 mL/kg，該叫的是<b>水電工（開刀房）</b>，不是再拿一條抹布。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 12 TBI 數據 ==================================================== -->
+<section class="slide">
+  <div class="kicker">Contraindication</div>
+  <h2>頭部外傷：低血壓 = 二次腦傷<span class="sub">PEGASUS 多中心研究，5 家兒童創傷中心，n=234</span></h2>
+  <div class="body">
+    <div class="stats">
+      <div class="stat"><div class="n a">26%</div><div class="k">早期照護中曾低血壓<br>（60/234）</div></div>
+      <div class="stat"><div class="n">23.3%</div><div class="k">院內死亡（曾低血壓）<br>vs 8.6%（未低血壓）p=0.01</div></div>
+      <div class="stat"><div class="n t">aRR 0.46</div><div class="k">30 分鐘內矯正<br>死亡（0.24–0.90）</div></div>
+      <div class="stat"><div class="n t">aRR 0.54</div><div class="k">30 分鐘內矯正<br>不良 GOS（0.39–0.76）</div></div>
+    </div>
+    <div class="cols">
+      <div class="card"><h3>定義</h3>
+        <p class="fine">低血壓＝ SBP &lt; 70 + 2×年齡（BTF 定義）；缺氧＝ SpO₂ &lt; 90% 或 PaO₂ &lt; 60。
+        「及時處置」＝紀錄到該事件後 <strong>30 分鐘內</strong>以輸液、血品或升壓劑矯正。</p></div>
+      <div class="card red"><h3>另一個佐證</h3>
+        <p class="fine">Luerssen 系列（成人 6,908／兒童 1,906）：低血壓對死亡的不良影響
+        <strong>在兒童比成人更大</strong>。</p></div>
+    </div>
+    <div class="note"><p class="fine">來源：<a href="https://pubmed.ncbi.nlm.nih.gov/27387972/" target="_blank" rel="noopener">Kannan 2018, Pediatr Emerg Care（PEGASUS 初步結果）</a>；
+      經 <a href="https://doi.org/10.1080/10903127.2023.2187905" target="_blank" rel="noopener">BTF 到院前 TBI 指引第 3 版</a>採用。</p></div>
+  </div>
+</section>
+
+<!-- ===== 13 禁忌整理 ==================================================== -->
+<section class="slide">
+  <div class="kicker">Rule</div>
+  <h2>哪些情況「一分鐘都不能低」<span class="sub">這一頁請學員抄下來</span></h2>
+  <div class="body">
+    <div class="cols">
+      <div class="card red"><h3>絕對不容許低血壓</h3>
+        <ul class="cross"><li><strong>頭部外傷</strong>（懷疑就算）</li>
+          <li><strong>脊髓損傷</strong></li></ul>
+        <p class="fine" style="margin-top:.5rem">成人指引在合併重度 TBI（GCS ≤8）時目標是
+        <strong>MAP ≥80 mmHg</strong>，而不是 permissive。</p></div>
+      <div class="card teal"><h3>現場怎麼判斷</h3>
+        <ul class="tick fine"><li>意識改變、瞳孔不等大</li><li>頭皮血腫、耳鼻出血</li>
+          <li>受傷機轉：高處墜落、車禍拋飛</li>
+          <li><strong>不確定的時候，當成有</strong></li></ul></div>
+    </div>
+    <div class="note"><p><strong>BTF 指引特別提醒：</strong>小兒 TBI 即使血壓「正常」，
+      只要有灌流不良徵象（CRT 長、脈搏弱、意識差），<strong>仍然可以給輸液</strong>。
+      這是唯一會叫你「積極一點」的情境。</p></div>
+    <div class="analogy">
+      <div class="emo">🧠</div>
+      <p><span class="tag">比喻</span>受傷的腦子像<b>已經跳電一半的房子</b>：
+      電壓再掉一點點，剩下還亮著的燈也會跟著熄。省電（低血壓）在這裡不叫節約，叫加速停電。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 14 PRESSURE 設計 =============================================== -->
+<section class="slide dense">
+  <div class="kicker">Ongoing trial</div>
+  <h2>英國 PRESSURE 試驗<span class="sub">兒童血壓目標領域的第一個大型 RCT — 正在進行中</span></h2>
+  <div class="body">
+    <table>
+      <tbody>
+        <tr><td><strong>全名</strong></td><td>PRotocolised Evaluation of permiSSive blood pressure targets versus USual caRE</td></tr>
+        <tr><td><strong>註冊／資助</strong></td><td><a href="https://www.isrctn.com/ISRCTN20609635" target="_blank" rel="noopener">ISRCTN 20609635</a>；NIHR HTA（128895），ICNARC 主持</td></tr>
+        <tr><td><strong>規模</strong></td><td>英國 <strong>18 家 PICU</strong>，目標 <strong>1,900 人</strong>；2021 年 11 月第一位個案</td></tr>
+        <tr class="key"><td><strong>介入組</strong></td><td>維持 <strong>MAP &gt; 該年齡第 5 百分位</strong>（permissive target band）</td></tr>
+        <tr><td><strong>對照組</strong></td><td>MAP 目標由臨床團隊自行決定（usual care）</td></tr>
+        <tr><td><strong>主要結果</strong></td><td>30 天內<strong>死亡 ＋ 侵入性呼吸器天數</strong>的複合排序結果；含經濟評估</td></tr>
+        <tr><td><strong>納入</strong></td><td>矯正妊娠 37 週–&lt;16 歲，入 PICU、使用呼吸器、預期血管活性藥 ≥6 小時</td></tr>
+        <tr><td><strong>排除</strong></td><td><span class="hl">急性腦損傷</span>、心臟術後、心肌病變、依賴動脈導管循環、肺高壓、惡性高血壓、瀕死</td></tr>
+      </tbody>
+      <caption>來源：<a href="https://doi.org/10.1097/PCC.0000000000003516" target="_blank" rel="noopener">PRESSURE protocol, Pediatr Crit Care Med 2024</a>。截至 2026 年 8 月尚未有結果發表。</caption>
+    </table>
+  </div>
+</section>
+
+<!-- ===== 15 PRESSURE MAP 帶 ============================================= -->
+<section class="slide dense">
+  <div class="kicker">Ongoing trial</div>
+  <h2>它用的 MAP 目標帶<span class="sub">可以直接當「地板值」的教學參考</span></h2>
+  <div class="body">
+    <div class="c46">
+      <table>
+        <thead><tr><th>年齡</th><th class="num">MAP 目標帶（mmHg）</th></tr></thead>
+        <tbody>
+          <tr><td>37 週–6 個月</td><td class="num">40–43</td></tr>
+          <tr><td>&gt;6 個月–&lt;1 歲</td><td class="num">40–45</td></tr>
+          <tr><td>1–3 歲</td><td class="num">45–50</td></tr>
+          <tr><td>4–9 歲</td><td class="num">50–55</td></tr>
+          <tr><td>≥10 歲</td><td class="num">55–60</td></tr>
+        </tbody>
+      </table>
+      <div style="display:flex;flex-direction:column;gap:.7rem">
+        <div class="card amber"><h3>注意這裡的 “permissive” 是什麼意思</h3>
+          <p class="fine">它<strong>不是</strong>「允許血壓掉下去」，而是
+          「<strong>不必用升壓藥把 MAP 拱得比第 5 百分位更高</strong>」。
+          第 5 百分位是<strong>地板</strong>，不是目標。</p></div>
+        <div class="analogy">
+          <div class="emo">🏦</div>
+          <p><span class="tag">比喻</span>銀行帳戶的<b>最低留存餘額 1,000 元</b>：
+          它的意思是「不准低於 1,000」，不是「你的目標是存 1,000」。
+          有人把 permissive 讀成後者——那是完全相反的做法。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 16 PRESSURE 不能回答什麼 ======================================= -->
+<section class="slide dense">
+  <div class="kicker">Interpretation</div>
+  <h2>PRESSURE <u>不能</u>拿來改現場流程<span class="sub">被問到的時候，用這張表回答</span></h2>
+  <div class="body">
+    <table>
+      <thead><tr><th>面向</th><th>PRESSURE 在做的</th><th>到院前小兒創傷</th></tr></thead>
+      <tbody>
+        <tr><td>場域</td><td>PICU 內，已插管</td><td>現場／救護車上</td></tr>
+        <tr class="key"><td>工具</td><td>用<strong>升壓劑</strong>調整 MAP</td><td>用<strong>輸液</strong>處理失血</td></tr>
+        <tr><td>病人</td><td>多為敗血症等分佈性休克</td><td><strong>出血性休克</strong></td></tr>
+        <tr><td>腦傷</td><td><span class="hl">明文排除</span>急性腦損傷</td><td>現場常無法排除</td></tr>
+        <tr><td>問題</td><td>「用藥把血壓拉到多高才夠？」</td><td>「輸液可以少給多少？」</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><p><strong>一句話：</strong>PRESSURE 問的是「<em>用藥把血壓拉到多高才夠</em>」，
+      不是「<em>創傷小孩可以放著低血壓</em>」。在它公布結果前——即使公布之後——
+      到院前小兒創傷的建議<strong>完全不變</strong>。</p></div>
+  </div>
+</section>
+
+<!-- ===== 17 台灣 SOP 對照 =============================================== -->
+<section class="slide dense">
+  <div class="kicker">Local protocol</div>
+  <h2>回到台灣的 SOP<span class="sub">好消息：限制性輸液其實已經內建在裡面了</span></h2>
+  <div class="body">
+    <table>
+      <thead><tr><th>項目</th><th>臺北市 EMTP SOP（T5 創傷性休克）</th><th>新北市 2024 SOP（兒童流程）</th></tr></thead>
+      <tbody>
+        <tr class="key"><td>兒童輸液</td><td>&lt;40 kg：<strong>20 mL/kg，得重複一次</strong>（上限 40）</td><td>休克者<strong>考慮 10–20 mL/kg</strong></td></tr>
+        <tr><td>兒童休克血壓</td><td>未特別列（成人 SBP&lt;90）</td><td>&lt;1 歲 &lt;70；1–10 歲 &lt;70+2×歲；&gt;10 歲 &lt;90</td></tr>
+        <tr><td>IV 嘗試次數</td><td colspan="2">休克患者：現場最多 <strong>2 次（或 5 分鐘）</strong>；預計 30 分鐘內到院者於車上執行</td></tr>
+        <tr><td>保溫</td><td colspan="2">明文要求：鋁箔／毛毯、車內暖氣、<strong>加溫輸液 39°C</strong>、移除濕血衣物</td></tr>
+        <tr><td>TXA</td><td>條件為成人指標（SBP&lt;90 或 HR≥120、3 小時內、1 g／10 分鐘）</td><td>兒童劑量未載</td></tr>
+      </tbody>
+      <caption>2026-08 核對本機 SOP 全文。兒童 TXA 劑量請依線上醫療指導，勿由成人劑量外推。</caption>
+    </table>
+    <div class="note"><p><strong>教學上的好消息：</strong>不必新增任何規則。
+      現行 SOP 的「20 mL/kg × 2 為限」＝ 40 mL/kg，<strong>剛好停在文獻的傷害訊號之前</strong>。
+      我們只要把「為什麼有這個上限」講清楚。</p></div>
+  </div>
+</section>
+
+<!-- ===== 18 口訣 ======================================================== -->
+<section class="slide">
+  <div class="kicker">Mnemonic</div>
+  <h2>帶回現場的口訣<span class="sub">四句、七言，走路的時候都背得起來</span></h2>
+  <div class="body" style="justify-content:center">
+    <div class="card red" style="text-align:center;padding:1.8rem 1.2rem">
+      <p style="font-size:clamp(24px,2.2vw,34px);font-weight:800;line-height:1.9;color:#fff">
+        先止血、再給水；一次十、打完看；<br>
+        摸到脈、就停手；撞到頭、不能低。</p>
+    </div>
+    <div class="cols3">
+      <div class="card"><div class="lbl">一次十</div>
+        <p class="fine">10 mL/kg。貴縣市寫 20 就教「一次二十」——
+        重點在<strong>打完必須重評</strong>，不是一路掛到底。</p></div>
+      <div class="card"><div class="lbl">摸到脈</div>
+        <p class="fine">終點是<strong>灌流</strong>不是數字：意識、橈動脈、皮膚回溫。</p></div>
+      <div class="card"><div class="lbl">撞到頭</div>
+        <p class="fine">唯一的例外條款。懷疑腦傷就<strong>不容許</strong>任何低血壓。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 19 四步流程 ==================================================== -->
+<section class="slide dense">
+  <div class="kicker">Field flow</div>
+  <h2>現場只有四步<span class="sub">流程越短，壓力下越不會出錯</span></h2>
+  <div class="body">
+    <div class="cols">
+      <div class="card red"><h3>① 止血優先</h3>
+        <p class="fine">直接加壓 → 止血帶 → 骨盆固定帶。<br>
+        <strong>任何輸液都不會止血。</strong></p></div>
+      <div class="card amber"><h3>② 判斷休克，別只看血壓</h3>
+        <p class="fine">意識、橈動脈、CRT&gt;2 秒、皮膚濕冷、心跳快。<br>
+        血壓只當紅線。</p></div>
+      <div class="card teal"><h3>③ 小量、多次、看反應</h3>
+        <p class="fine">10（或 20）mL/kg → 立刻重評 → 有改善就停。<br>
+        心裡那條線：<strong>40 mL/kg</strong>。</p></div>
+      <div class="card"><h3>④ 保溫 ＋ 快送</h3>
+        <p class="fine">脫濕衣、鋁毯、暖氣、加溫輸液。<br>
+        腹腔／骨盆出血 → <strong>scoop and run</strong>。</p></div>
+    </div>
+    <div class="analogy">
+      <div class="emo">🍲</div>
+      <p><span class="tag">比喻</span>為什麼灌太多水會讓血止不住？把<b>濃湯一直加水</b>，
+      湯的量變多了，味道卻沒了。血液被稀釋後，凝血因子的「濃度」不夠，<b>血栓就結不起來</b>——
+      再加上冷輸液讓凝血酶失效，等於一邊補水一邊拆掉止血機制。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 20 現場卡 ====================================================== -->
+<section class="slide dense">
+  <div class="kicker">Pocket card</div>
+  <h2>口袋卡：紅線與劑量<span class="sub">貼在血壓計上的那一張</span></h2>
+  <div class="body">
+    <div class="cols">
+      <div class="card red"><h3>血壓紅線（跌破＝很糟）</h3>
+        <table>
+          <tbody>
+            <tr><td>&lt; 1 歲</td><td class="num"><strong>SBP &lt; 70</strong></td></tr>
+            <tr><td>1–10 歲</td><td class="num"><strong>SBP &lt; 70 + 2×歲</strong></td></tr>
+            <tr><td>&gt; 10 歲</td><td class="num"><strong>SBP &lt; 90</strong></td></tr>
+          </tbody>
+        </table>
+        <p class="fine" style="margin-top:.4rem">口算：5 歲 = 80、8 歲 = 86、10 歲 = 90。</p></div>
+      <div class="card teal"><h3>一次的輸液量（N/S）</h3>
+        <table>
+          <tbody>
+            <tr><td>10 kg（約 1 歲）</td><td class="num">100–200 mL</td></tr>
+            <tr><td>20 kg（約 6 歲）</td><td class="num">200–400 mL</td></tr>
+            <tr><td>30 kg（約 10 歲）</td><td class="num">300–600 mL</td></tr>
+            <tr class="key"><td colspan="2">現場總量心中上限：<strong>40 mL/kg</strong></td></tr>
+          </tbody>
+        </table>
+        <p class="fine" style="margin-top:.4rem">體重未知：用 Broselow 帶或 (年齡+4)×2。</p></div>
+    </div>
+    <div class="note"><p><strong>交班一定要講：</strong>「總共給了幾 mL、幾點給的、給完之後脈搏／意識有沒有變」。
+      沒講量，醫院就會從頭再灌一次。</p></div>
+  </div>
+</section>
+
+<!-- ===== 21 三個誤解 ==================================================== -->
+<section class="slide dense">
+  <div class="kicker">Misconceptions</div>
+  <h2>要主動打掉的四個誤解<span class="sub">這些是課後最容易被記錯的版本</span></h2>
+  <div class="body">
+    <table>
+      <thead><tr><th>常見誤解</th><th>正確版本</th></tr></thead>
+      <tbody>
+        <tr><td>「現在流行 permissive hypotension，小孩也少給水就好」</td>
+            <td>兒童沒有這個建議。少給水是為了<strong>避免過量傷害</strong>，不是<strong>追求低血壓</strong></td></tr>
+        <tr><td>「血壓還可以，那就沒休克」</td>
+            <td>兒童代償強，血壓<strong>最後才掉</strong>。看意識、脈搏強度、CRT</td></tr>
+        <tr><td>「休克就先掛兩袋跑」</td>
+            <td>每次 bolus 後都要重評；&gt;40 mL/kg 與死亡率上升相關（觀察性）</td></tr>
+        <tr class="key"><td>「英國已經在試 permissive 了，所以小孩可以低血壓」</td>
+            <td>PRESSURE 是 <strong>PICU 重症、用升壓藥、排除腦傷</strong>，且<strong>尚無結果</strong>；
+            而且它的 permissive 是「MAP <strong>不低於</strong>第 5 百分位」</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><p><strong>講法建議：</strong>誤解不要只是「糾正」，要給一個<em>更好記的替代版本</em>——
+      學員記不住否定句，只記得住動作。</p></div>
+  </div>
+</section>
+
+<!-- ===== 22 OSCE ======================================================== -->
+<section class="slide dense">
+  <div class="kicker">OSCE</div>
+  <h2>情境檢核<span class="sub">四題，每題只問一個決策點</span></h2>
+  <div class="body">
+    <table>
+      <thead><tr><th>情境</th><th>該做什麼</th><th>考點</th></tr></thead>
+      <tbody>
+        <tr><td><strong>A</strong>　6 歲、車禍、腹脹壓痛、HR 160、CRT 4 秒、<strong>BP 96/70</strong></td>
+            <td>當成休克處理：止血確認 → 10–20 mL/kg → 重評 → 快送</td>
+            <td>血壓正常 ≠ 沒休克</td></tr>
+        <tr><td><strong>B</strong>　4 歲、墜落、意識混亂、瞳孔不等大、<strong>SBP 72</strong></td>
+            <td>疑似 TBI：<strong>積極矯正低血壓</strong>、避免缺氧、優先送創傷中心</td>
+            <td>腦傷是禁忌，不能容許低血壓</td></tr>
+        <tr><td><strong>C</strong>　8 歲、約 30 kg，已給 <strong>1,200 mL</strong> N/S 仍蒼白、脈弱</td>
+            <td>已達 40 mL/kg → 停止加碼、通報、保溫、<strong>快送</strong></td>
+            <td>需要的是血與手術，不是更多水</td></tr>
+        <tr><td><strong>D</strong>　2 歲、下肢大量外出血、哭鬧、HR 180</td>
+            <td>先止血帶／加壓止血，<strong>再</strong>考慮輸液</td>
+            <td>止血優先於輸液</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><p><strong>帶討論的問法：</strong>不要問「該給多少」，問
+      「<em>你打完這一次，會看什麼來決定要不要打第二次？</em>」——這才是這堂課真正要教的動作。</p></div>
+  </div>
+</section>
+
+<!-- ===== 23 證據等級 ==================================================== -->
+<section class="slide dense">
+  <div class="kicker">Provenance</div>
+  <h2>本簡報數字的來源與等級<span class="sub">教學材料也要能被查核</span></h2>
+  <div class="body">
+    <table>
+      <thead><tr><th>關鍵數字</th><th>來源</th><th>等級</th></tr></thead>
+      <tbody>
+        <tr><td>成人 permissive OR 0.70（0.53–0.92）</td><td>Tran 2018 統合分析（6 RCT, n=1,158）</td><td>✓ 同儕審查</td></tr>
+        <tr><td>≥40 mL/kg 死亡 aOR 6.26</td><td>Mbadiwe 2021（單中心回溯，已校正 ISS）</td><td>○ 單一中心觀察性</td></tr>
+        <tr><td>&gt;60 mL/kg 存活下降</td><td>轉引自 Russell 2023 共識之文獻回顧</td><td>○ 二手引用</td></tr>
+        <tr><td>PEGASUS 23.3% vs 8.6%、aRR 0.46</td><td>Kannan 2018, Pediatr Emerg Care（原始論文已核對）</td><td>✓ 同儕審查</td></tr>
+        <tr><td>PRESSURE 設計與 MAP 帶</td><td>PCCM 2024 protocol 原文＋ISRCTN 20609635</td><td>⚠ 進行中，尚無結果</td></tr>
+        <tr><td>臺北／新北 SOP 條文</td><td>本機 SOP 全文，2026-08-17 核對</td><td>✓ 官方文件</td></tr>
+        <tr><td>「40 mL/kg ≒ 20 kg 童 800 mL」</td><td>本簡報<strong>換算</strong></td><td>△ 概算，僅供教學</td></tr>
+      </tbody>
+      <caption>✓ 官方／同儕審查　⚠ 進行中或草案　○ 單一來源／二手　△ 自行推算</caption>
+    </table>
+  </div>
+</section>
+
+<!-- ===== 24 名詞對照 ==================================================== -->
+<section class="slide dense">
+  <div class="kicker">Glossary</div>
+  <h2>名詞對照<span class="sub">課後要查文獻時用得到</span></h2>
+  <div class="body">
+    <div class="cols">
+      <div class="card"><h3>臨床</h3>
+        <ul class="fine">
+          <li><strong>容許性低血壓</strong> permissive hypotension</li>
+          <li><strong>限制性輸液</strong> restrictive fluid strategy</li>
+          <li><strong>代償性休克</strong> compensated shock</li>
+          <li><strong>微血管回填時間</strong> capillary refill time (CRT)</li>
+          <li><strong>平均動脈壓</strong> mean arterial pressure (MAP)</li>
+          <li><strong>稀釋性凝血病</strong> dilutional coagulopathy</li>
+          <li><strong>容積過載</strong> fluid overload</li>
+        </ul></div>
+      <div class="card"><h3>方法學與統計</h3>
+        <ul class="fine">
+          <li><strong>校正後勝算比</strong> adjusted odds ratio (aOR)</li>
+          <li><strong>校正後相對風險</strong> adjusted relative risk (aRR)</li>
+          <li><strong>信賴區間</strong> confidence interval (CI)</li>
+          <li><strong>第 5 百分位</strong> fifth centile</li>
+          <li><strong>觀察性研究</strong> observational study</li>
+          <li><strong>複合結果</strong> composite outcome</li>
+          <li><strong>實用型試驗</strong> pragmatic trial</li>
+        </ul></div>
+    </div>
+    <div class="note"><p class="fine">LTOWB、TXA、GCS、ISS、PICU 等在臨床中文口語中直接使用英文，不另翻譯。</p></div>
+  </div>
+</section>
+
+<!-- ===== 25 參考文獻 ==================================================== -->
+<section class="slide dense">
+  <div class="kicker">References</div>
+  <h2>參考文獻<span class="sub">每一條都可以點開</span></h2>
+  <div class="body">
+    <ol class="fine" style="columns:2;column-gap:2rem">
+      <li><a href="https://doi.org/10.1097/TA.0000000000003805" target="_blank" rel="noopener">Russell RT, et al. Pediatric Traumatic Hemorrhagic Shock Consensus Conference Recommendations. J Trauma Acute Care Surg. 2023;94(1S):S2-S10.</a></li>
+      <li><a href="https://doi.org/10.1097/TA.0000000000001816" target="_blank" rel="noopener">Tran A, et al. Permissive hypotension versus conventional resuscitation in adult trauma: SR & meta-analysis of RCTs. J Trauma Acute Care Surg. 2018;84(5):802-808.</a></li>
+      <li><a href="https://doi.org/10.1542/peds.2025-074351" target="_blank" rel="noopener">Lasa JJ, et al. Part 8: Pediatric Advanced Life Support: 2025 AHA/AAP Guidelines. Pediatrics. 2026;157(1):e2025074351.</a></li>
+      <li><a href="https://doi.org/10.1111/pan.14389" target="_blank" rel="noopener">Buis ML, Turner NM. New ERC guidelines for pediatric life support. Paediatr Anaesth. 2022;32(4):497-503.</a></li>
+      <li><a href="https://doi.org/10.1016/j.jss.2020.12.063" target="_blank" rel="noopener">Mbadiwe N, et al. Higher Crystalloid Volume During Initial Pediatric Trauma Resuscitation Is Associated With Mortality. J Surg Res. 2021;262:93-100.</a></li>
+      <li><a href="https://doi.org/10.1097/TA.0000000000002139" target="_blank" rel="noopener">Sarganas G, et al. An unambiguous definition of pediatric hypotension is still lacking. J Trauma Acute Care Surg. 2019;86(3):448-453.</a></li>
+      <li><a href="https://doi.org/10.1186/s13054-019-2653-9" target="_blank" rel="noopener">Hagedoorn NN, et al. A comparison of clinical paediatric guidelines for hypotension with population-based lower centiles. Crit Care. 2019;23:380.</a></li>
+      <li><a href="https://doi.org/10.1080/10903127.2023.2187905" target="_blank" rel="noopener">Lulla A, et al. Prehospital Guidelines for the Management of Traumatic Brain Injury – 3rd Edition. Prehosp Emerg Care. 2023;27(5):507-538.</a></li>
+      <li><a href="https://pubmed.ncbi.nlm.nih.gov/27387972/" target="_blank" rel="noopener">Kannan N, et al. Timely Hemodynamic Resuscitation and Outcomes in Severe Pediatric TBI (PEGASUS). Pediatr Emerg Care. 2018;34(5):325-329.</a></li>
+      <li><a href="https://doi.org/10.1097/PCC.0000000000003516" target="_blank" rel="noopener">Peters MJ, et al. PRESSURE trial protocol. Pediatr Crit Care Med. 2024;25(7):629-637.</a> ｜ <a href="https://www.isrctn.com/ISRCTN20609635" target="_blank" rel="noopener">ISRCTN 20609635</a></li>
+      <li><a href="https://doi.org/10.1056/NEJMoa2215457" target="_blank" rel="noopener">PATCH-Trauma Investigators. Prehospital Tranexamic Acid for Severe Trauma. N Engl J Med. 2023;389(2):127-136.</a></li>
+      <li><a href="https://doi.org/10.1097/CCM.0000000000005383" target="_blank" rel="noopener">Spinella PC, et al. Use of Antifibrinolytics in Pediatric Life-Threatening Hemorrhage (MATIC). Crit Care Med. 2022;50(4):e382-e392.</a></li>
+    </ol>
+    <div class="note"><p class="fine">實證檢索：OpenEvidence，2026-08-17（2 次查詢）；SOP 條文核對自臺北市 EMTP SOP 與新北市 2024 EMTP SOP 全文。</p></div>
+  </div>
+</section>
+
+</div>
+
+<div class="prog" id="prog"></div>
+<div class="nav">
+  <button id="pv" title="上一頁 (←)">‹</button>
+  <button id="nx" title="下一頁 (→)">›</button>
+</div>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+let i=0;
+function render(){
+  slides.forEach((s,k)=>s.classList.toggle('on',k===i));
+  const s=slides[i];
+  if(!s.querySelector('.foot')){
+    const f=document.createElement('div');
+    f.className='foot';
+    f.innerHTML='<span>小兒創傷 Permissive Hypotension · EMT 教學</span><span>'+(i+1)+' / '+slides.length+'</span>';
+    s.appendChild(f);
+  }
+  document.getElementById('prog').style.width=((i+1)/slides.length*100)+'%';
+  s.scrollTop=0; location.hash='s'+(i+1);
+}
+function go(n){i=Math.max(0,Math.min(slides.length-1,n));render()}
+document.addEventListener('keydown',e=>{
+  if(['ArrowRight','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();go(i+1)}
+  else if(['ArrowLeft','PageUp','Backspace'].includes(e.key)){e.preventDefault();go(i-1)}
+  else if(e.key==='Home')go(0); else if(e.key==='End')go(slides.length-1);
+  else if(e.key==='f'||e.key==='F'){document.fullscreenElement?document.exitFullscreen()
+    :document.documentElement.requestFullscreen()}
+});
+document.getElementById('nx').onclick=()=>go(i+1);
+document.getElementById('pv').onclick=()=>go(i-1);
+const m=location.hash.match(/^#s(\d+)$/);
+if(m)i=Math.min(slides.length-1,Math.max(0,+m[1]-1));
+render();
+</script>
+</body>
+</html>
